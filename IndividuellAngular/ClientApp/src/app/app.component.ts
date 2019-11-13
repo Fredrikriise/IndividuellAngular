@@ -4,6 +4,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { FAQ, IFAQ } from "./KundeService";
 import { InnSporsmal, IInnsporsmal } from "./KundeService";
 
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html'

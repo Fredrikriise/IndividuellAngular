@@ -34,10 +34,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\faq\faq.component.ts" />
     <None Remove="ClientApp\src\app\KundeService.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\faq\faq.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\KundeService.ts" />
   </ItemGroup>
 
