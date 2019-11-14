@@ -21,7 +21,7 @@ export class AppComponent {
 
     visFAQ: boolean;
     FAQStatus: string;
-    //visFAQListe: boolean;
+    visFAQListe: boolean;
     alleFAQ: Array<FAQ>;
     FAQSkjema: FormGroup;
 
@@ -47,7 +47,7 @@ export class AppComponent {
         this.laster = true;
         this.hentAlleFAQ();
         this.visFAQ = false;
-        //this.visFAQListe = false;
+        this.visFAQListe = false;
         this.visHjem = true;
         this.hentAlleInnsporsmal();
         this.visInnsporsmal = false;
@@ -188,7 +188,7 @@ export class AppComponent {
     }
 
     tilbakeTilFAQListe() {
-        //this.visFAQListe = true;
+        this.visFAQListe = true;
         this.visFAQ = false;
         this.visHjem = false;
         this.visInnsporsmal = false;
