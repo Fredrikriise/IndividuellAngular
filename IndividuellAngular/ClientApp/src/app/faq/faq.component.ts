@@ -1,3 +1,15 @@
+/*
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'faq-root',
+    templateUrl: './faq.component.html',
+})
+export class FaqComponent {
+}
+
+*/
+
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, Injectable } from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
@@ -10,7 +22,7 @@ export class FileNode {
 }
 
 @Component({
-    selector: 'app-faq',
+    selector: 'faq-root',
     templateUrl: './faq.component.html',
     styleUrls: ['./faq.component.scss']
 })
@@ -28,25 +40,26 @@ export class FaqComponent {
 
         this.dataChange.next([
             {
-                filename: "test",
-                type: "test",
+                filename: "folder",
+                type: "",
                 children: [
                     {
-                        filename: "test",
-                        type: "test",
+                        filename: "test3",
+                        type: "exe",
                         children: [],
                     }
                 ],
             },
             {
-                filename: "test",
-                type: "test",
+                filename: "test2",
+                type: "exe",
                 children: [],
             },
         ]);
     }
 
-    
     private _getChildren = (node: FileNode) => { return observableOf(node.children); };
+
     hasNestedChild = (_: number, nodeData: FileNode) => { return !(nodeData.type); };
 }
+

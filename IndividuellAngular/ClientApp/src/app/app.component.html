@@ -5,7 +5,7 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Vy Kundeservice</a>
+      <a class="navbar-brand">Vy Kundeservice</a>
       <button class="navbar-toggler"
               type="button"
               data-toggle="collapse"
@@ -22,9 +22,8 @@
             <a class="nav-link text-dark" (click)='tilbakeTilHjem()'>Hjem</a>
           </li>
 
-          <li class="nav-item"     [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" (click)='tilbakeTilFAQListe()' [routerLink]="['/faq']">FAQ</a>
+          <li class="nav-item">
+            <a class="nav-link text-dark" (click)='tilbakeTilFAQTree()'>FAQ</a>
           </li>
 
           <li class="nav-item">
@@ -78,6 +77,10 @@
         </mat-nested-tree-node>
       </mat-tree> -->
     </div>
+  </div>
+
+  <div *ngIf="visFAQTree">
+    <faq-root></faq-root>
   </div>
 
   <!-- Visning av FAQ div -->

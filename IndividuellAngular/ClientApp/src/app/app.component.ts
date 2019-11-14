@@ -25,6 +25,7 @@ export class AppComponent {
     alleFAQ: Array<FAQ>;
     FAQSkjema: FormGroup;
 
+    visFAQTree: boolean;
 
     constructor(private _http: HttpClient, private fb: FormBuilder) {
         this.InnsporsmalSkjema = fb.group({
@@ -51,6 +52,7 @@ export class AppComponent {
         this.hentAlleInnsporsmal();
         this.visInnsporsmal = false;
         this.visInnsporsmalListe = false;
+        this.visFAQTree = false;
     }
 
     onSubmit() {
@@ -86,6 +88,15 @@ export class AppComponent {
                 error => alert(error),
             );
     };
+
+    tilbakeTilFAQTree() {
+        this.visFAQTree = true;
+        this.visInnsporsmalListe = false;
+        this.visInnsporsmal = false;
+        this.visHjem = false;
+        this.visFAQ = false;
+        this.visFAQListe = false;
+    }
 
     tilbakeTilInnsporsmal() {
         this.hentAlleInnsporsmal();
