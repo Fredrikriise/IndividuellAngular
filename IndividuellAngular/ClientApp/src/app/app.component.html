@@ -48,69 +48,22 @@
         Velkommen til Vy sin kundeservice side. Dersom du lurer på noe, får du mest sannsynlig svar på spørsmålet ditt her.<br />
         Hvis ikke, kan du sende inn spørsmålet du har, så vil vi svare deg i løpet av kort tid!
       </p>
-      <button class="btn btn-primary" (click)="tilbakeTilFAQListe()">Gå til FAQ</button>┆
+      <button class="btn btn-primary" (click)="tilbakeTilFAQTree()">Gå til FAQ</button>┆
       <button class="btn btn-primary" (click)="registrerInnsporsmal()">Send inn spørsmål</button>┆
-      <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>
-      <!--
-      <mat-tree [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl" class="example-tree">
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-          <li class="mat-tree-node">
-            <button mat-icon-button disabled></button>
-            {{node.filename}}: {{node.type}}
-          </li>
-        </mat-tree-node>
-
-        <mat-nested-tree-node *matTreeNodeDef="let node; when; hasNestedChild">
-          <li>
-            <div class="mat-tree-node">
-              <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.filename">
-                <mat-icon class="mat-icon-rtl-mirror">
-                  {{nestedTreeControl.isExpanded(node) ? 'exapnd_more' : 'chevron_right'}}
-                </mat-icon>
-              </button>
-              {{node.filename}}
-            </div>
-            <ul [class.example-tree-invisible]="!nestedTreeControl.isExpanded(node)">
-              <ng-container matTreeNodeOutlet></ng-container>
-            </ul>
-          </li>
-        </mat-nested-tree-node>
-      </mat-tree> -->
+      <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>┆
+      <button class="btn btn-primary" (click)="registrerFAQ()">Gå til registrering av FAQ</button>
     </div>
   </div>
 
-  <div *ngIf="visFAQTree">
+  <!-- Visning av FAQ -->
+  <div class="container" style="text-align:center" *ngIf="visFAQTree">
+    <h2>FAQ - Frequently asked questions</h2>
+    <p>Her finner du svar på ofte spurte spørsmål</p>
     <faq-root></faq-root>
-  </div>
 
-  <!-- Visning av FAQ div -->
-  <div class="container" style="text-align:center" *ngIf="visFAQListe">
-    <div style="display: inline-block; text-align: left">
-      <h2>FAQ - Frequently asked questions</h2>
-      <div *ngIf="laster">Laster FAQ.....</div>
-      <table class="table table-bordered table-condensed">
-        <thead>
-          <tr>
-            <th>Kategori</th>
-            <th>Spørsmål</th>
-            <th>Svar</th>
-          </tr>
-        </thead>
-        <tbody *ngFor="let faq of alleFAQ">
-          <tr>
-            <td>{{faq.kategori}}</td>
-            <td>{{faq.sporsmal}}</td>
-            <td>{{faq.svar}}</td>
-            <td><button class="btn btn-danger" (click)="slettInnsporsmal(faq.id)">Slett</button></td>
-            <td><button class="btn btn-success" (click)="endreInnsporsmal(faq.id)">Endre</button></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
-      <button class="btn btn-primary" (click)="registrerInnsporsmal()">Send inn spørsmål</button> ┆
-      <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>
-    </div>
+    <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
+    <button class="btn btn-primary" (click)="registrerInnsporsmal()">Send inn spørsmål</button>┆
+    <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>
   </div>
 
   <!-- Visning av alle innsendte spørsmål div -->
@@ -131,7 +84,7 @@
             <td>{{innsporsmal.navn}}</td>
             <td>{{innsporsmal.email}}</td>
             <td>{{innsporsmal.sporsmal}}</td>
-            <td><button class="btn btn-danger" (click)="slettInnsporsmal(innsporsmal.id)">Slett</button></td> ┆
+            <td><button class="btn btn-danger" (click)="slettInnsporsmal(innsporsmal.id)">Slett</button></td>
             <td><button class="btn btn-success" (click)="endreInnsporsmal(innsporsmal.id)">Endre</button></td>
           </tr>
         </tbody>
@@ -139,7 +92,7 @@
 
       <button class="btn btn-primary" (click)="registrerInnsporsmal()">Gå til innsending av spørsmål</button> ┆
       <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
-      <button class="btn btn-primary" (click)="tilbakeTilFAQListe()">Gå til FAQ</button>
+      <button class="btn btn-primary" (click)="tilbakeTilFAQTree()">Gå til FAQ</button>
     </div>
   </div>
 
@@ -173,52 +126,51 @@
         </div>
 
         <div class="form-group">
-          <button type="submit" *ngIf="InnsporsmalStatus=='Endre'" [disabled]="!InnsporsmalSkjema.valid" class="btn btn-primary">Endre</button>
           <button type="submit" *ngIf="InnsporsmalStatus=='RegistrereSporsmal'" [disabled]="!InnsporsmalSkjema.valid" class="btn btn-success">Send inn spørsmål</button> ┆
           <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Gå til alle innsendte spørsmål</button> ┆
           <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
-          <button class="btn btn-primary" (click)="tilbakeTilFAQListe()">Gå til FAQ</button>
+          <button class="btn btn-primary" (click)="tilbakeTilFAQTree()">Gå til FAQ</button>
         </div>
       </form>
     </div>
   </div>
 
-
-  <!-- Visning av registrering av ny FAQ div -->
+  <!-- Visning av registrering av ny faq div-->
   <div class="container" style="text-align:center" *ngIf="visFAQ">
     <div style="display: inline-block; text-align: left">
-      <h2>Registrer FAQ!</h2>
+      <h2>Send inn FAQ</h2>
       <form [formGroup]="FAQSkjema" (ngSubmit)="onSubmit()">
         <input class="form-control" formControlName="id" type="hidden" />
-        <div class="form-group">
-          <label>Navn</label>
-          <input class="form-control" formControlName="navn" placeholder="Navn" />
-          <p class="alert alert-warning" [hidden]="InnsporsmalSkjema.controls.navn.valid || (InnsporsmalSkjema.controls.navn.pristine && !submitted)">
-            Navn er obligatorisk!
-          </p>
-        </div>
 
         <div class="form-group">
-          <label>Epost</label>
-          <input class="form-control" formControlName="email" placeholder="Epostadresse" />
-          <p class="alert alert-warning" [hidden]="InnsporsmalSkjema.controls.email.valid || (InnsporsmalSkjema.controls.email.pristine && !submitted)">
-            Email er obligatorisk!
-          </p>
-        </div>
-        <div class="form-group">
           <label>Spørsmål</label>
-          <input class="form-control" formControlName="sporsmal" placeholder="Hva lurer du på?" />
-          <p class="alert alert-warning" [hidden]="InnsporsmalSkjema.controls.sporsmal.valid || (InnsporsmalSkjema.controls.sporsmal.pristine && !submitted)">
+          <input class="form-control" formControlName="sporsmal" placeholder="Spørsmål" />
+          <p class="alert alert-warning" [hidden]="FAQSkjema.controls.sporsmal.valid || (FAQSkjema.controls.sporsmal.pristine && !submitted)">
             Spørsmål er obligatorisk!
           </p>
         </div>
 
         <div class="form-group">
-          <button type="submit" *ngIf="InnsporsmalStatus=='Endre'" [disabled]="!InnsporsmalSkjema.valid" class="btn btn-primary">Endre</button>
-          <button type="submit" *ngIf="InnsporsmalStatus=='RegistrereSporsmal'" [disabled]="!InnsporsmalSkjema.valid" class="btn btn-success">Send inn spørsmål</button> ┆
+          <label>Svar</label>
+          <input class="form-control" formControlName="svar" placeholder="Svar" />
+          <p class="alert alert-warning" [hidden]="FAQSkjema.controls.svar.valid || (FAQSkjema.controls.svar.pristine && !submitted)">
+            Svar er obligatorisk!
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label>Kategori</label>
+          <input class="form-control" formControlName="kategori" placeholder="Kategori" />
+          <p class="alert alert-warning" [hidden]="FAQSkjema.controls.kategori.valid || (FAQSkjema.controls.kategori.pristine && !submitted)">
+            Kategori er obligatorisk!
+          </p>
+        </div>
+
+        <div class="form-group">
+          <button type="submit" *ngIf="FAQStatus=='RegistrerFAQ'" [disabled]="!FAQSkjema.valid" class="btn btn-success">Send inn spørsmål</button> ┆
           <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Gå til alle innsendte spørsmål</button> ┆
           <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
-          <button class="btn btn-primary" (click)="tilbakeTilFAQListe()">Gå til FAQ</button>
+          <button class="btn btn-primary" (click)="tilbakeTilFAQTree()">Gå til FAQ</button>
         </div>
       </form>
     </div>

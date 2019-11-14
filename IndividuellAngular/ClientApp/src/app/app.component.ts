@@ -21,7 +21,7 @@ export class AppComponent {
 
     visFAQ: boolean;
     FAQStatus: string;
-    visFAQListe: boolean;
+    //visFAQListe: boolean;
     alleFAQ: Array<FAQ>;
     FAQSkjema: FormGroup;
 
@@ -47,7 +47,7 @@ export class AppComponent {
         this.laster = true;
         this.hentAlleFAQ();
         this.visFAQ = false;
-        this.visFAQListe = false;
+        //this.visFAQListe = false;
         this.visHjem = true;
         this.hentAlleInnsporsmal();
         this.visInnsporsmal = false;
@@ -59,22 +59,12 @@ export class AppComponent {
         if (this.InnsporsmalStatus == "RegistrereSporsmal") {
             this.lagreInnsporsmal();
         }
-        else if (this.InnsporsmalStatus == "Endre") {
-            this.endreEtInnsporsmal();
-        }
-        else {
-            alert("Feil i applikasjonen!");
-        }
-/*
-        if (this.FAQStatus == "Registrere") {
+        else if (this.FAQStatus == "RegistrerFAQ") {
             this.lagreFAQ();
         }
-        else if (this.FAQStatus == "Endre") {
-            this.endreEnFAQ();
-        }
         else {
-            alert("Feil i applikasjonen!");
-        } */
+            alert("Feil ved registrering!");
+        } 
     }
 
     hentAlleInnsporsmal() {
@@ -95,7 +85,7 @@ export class AppComponent {
         this.visInnsporsmal = false;
         this.visHjem = false;
         this.visFAQ = false;
-        this.visFAQListe = false;
+        //this.visFAQListe = false;
     }
 
     tilbakeTilInnsporsmal() {
@@ -104,7 +94,8 @@ export class AppComponent {
         this.visInnsporsmal = false;
         this.visHjem = false;
         this.visFAQ = false;
-        this.visFAQListe = false;
+        //this.visFAQListe = false;
+        this.visFAQTree = false;
     }
 
     tilbakeTilHjem() {
@@ -112,7 +103,8 @@ export class AppComponent {
         this.visInnsporsmal = false;
         this.visHjem = true;
         this.visFAQ = false;
-        this.visFAQListe = false;
+        //this.visFAQListe = false;
+        this.visFAQTree = false;
     }
 
     lagreInnsporsmal() {
@@ -152,61 +144,8 @@ export class AppComponent {
         this.visInnsporsmal = true;
         this.visHjem = false;
         this.visFAQ = false;
-        this.visFAQListe = false;
-    }
-
-    slettInnsporsmal(id: number) {
-        this._http.delete("api/innsporsmal/" + id)
-            .subscribe(
-                () => {
-                    this.hentAlleInnsporsmal();
-                    console.log("Ferdig med delete-api/innsporsmal");
-                },
-                error => alert(error),
-            );
-    };
-
-    endreInnsporsmal(id: number) {
-        this._http.get<IInnsporsmal>("api/innsporsmal/" + id)
-            .subscribe(
-                innsporsmal => {
-                    this.InnsporsmalSkjema.patchValue({ id: innsporsmal.id });
-                    this.InnsporsmalSkjema.patchValue({ navn: innsporsmal.navn });
-                    this.InnsporsmalSkjema.patchValue({ email: innsporsmal.email });
-                    this.InnsporsmalSkjema.patchValue({ sporsmal: innsporsmal.sporsmal });
-                    console.log("Ferdig med get-api/innsporsmal");
-                },
-                error => alert(error),
-            );
-        this.InnsporsmalStatus = "Endre";
-        this.visInnsporsmal = true;
-        this.visInnsporsmalListe = false;
-        this.visHjem = false;
-        this.visFAQ = false;
-        this.visFAQListe = false;
-    }
-
-    endreEtInnsporsmal() {
-        const endretInnsporsmal = new InnSporsmal();
-
-        endretInnsporsmal.sporsmal = this.InnsporsmalSkjema.value.sporsmal;
-
-        const body: string = JSON.stringify(endretInnsporsmal);
-        const headers = new HttpHeaders({ "Content-Type": "application/json" });
-
-        this._http.put("api/innsporsmal/" + this.InnsporsmalSkjema.value.id, body, { headers: headers })
-            .subscribe(
-                () => {
-                    this.hentAlleInnsporsmal();
-                    this.visInnsporsmal = false;
-                    this.visInnsporsmalListe = true;
-                    this.visHjem = false;
-                    this.visFAQ = false;
-                    this.visFAQListe = false;
-                    console.log("Ferdig med post-api/innsporsmal");
-                },
-                error => alert(error)
-            );
+        //this.visFAQListe = false;
+        this.visFAQTree = false;
     }
 
     //Metoder for FAQ
@@ -225,40 +164,43 @@ export class AppComponent {
     registrerFAQ() {
         this.FAQSkjema.setValue({
             id: "",
-            kategori: "",
             sporsmal: "",
-            svar: ""
+            svar: "",
+            kategori: "",
         });
 
         //Setter statusen til skjemaet som "uberørt" slik at det ikke blir skrevet ut valederings-feilmeldinger
         this.FAQSkjema.markAsPristine();
         this.visFAQ = false;
-        this.FAQStatus = "Registrer";
+        this.FAQStatus = "RegistrerFAQ";
         this.visFAQ = true;
+        this.visFAQTree = false;
+        this.visHjem = false;
     }
 
     tilbakeTilFAQ() {
-        this.visFAQListe = false;
+        //this.visFAQListe = false;
         this.visFAQ = true;
         this.visHjem = false;
         this.visInnsporsmal = false;
         this.visInnsporsmalListe = false;
+        this.visFAQTree = false;
     }
 
     tilbakeTilFAQListe() {
-        this.visFAQListe = true;
+        //this.visFAQListe = true;
         this.visFAQ = false;
         this.visHjem = false;
         this.visInnsporsmal = false;
         this.visInnsporsmalListe = false;
+        this.visFAQTree = false;
     }
 
     lagreFAQ() {
         var lagretFAQ = new FAQ();
-
-        lagretFAQ.kategori = this.FAQSkjema.value.kategori;
         lagretFAQ.sporsmal = this.FAQSkjema.value.sporsmal;
         lagretFAQ.svar = this.FAQSkjema.value.svar;
+        lagretFAQ.kategori = this.FAQSkjema.value.kategori;
 
         const body: string = JSON.stringify(lagretFAQ);
         const headers = new HttpHeaders({ "Content-Type": "application/json" });
@@ -267,64 +209,13 @@ export class AppComponent {
             .subscribe(
                 () => {
                     this.registrerFAQ();
-                    this.visFAQListe = true;
+                    //this.visFAQListe = true;
                     console.log("Ferdig med post-api/faq");
                 },
                 error => alert(error),
             );
     };
 
-    slettFAQ(id: number) {
-        this._http.delete("api/faq/" + id)
-            .subscribe(
-                () => {
-                    this.hentAlleFAQ();
-                    console.log("Ferdig med delete-api/faq");
-                },
-                error => alert(error),
-            );
-    };
-
-    endreFAQ(id: number) {
-        this._http.get<IFAQ>("api/faq/" + id)
-            .subscribe(
-                faq => {
-                    this.FAQSkjema.patchValue({ id: faq.id });
-                    this.FAQSkjema.patchValue({ kategori: faq.kategori });
-                    this.FAQSkjema.patchValue({ sporsmal: faq.sporsmal });
-                    this.FAQSkjema.patchValue({ svar: faq.svar });
-                    console.log("Ferdig med get-api/faq");
-                },
-                error => alert(error),
-            );
-        this.FAQStatus = "Endre";
-        this.visFAQ = true;
-        this.visFAQListe = false;
-    }
-
-    endreEnFAQ() {
-        const endretFAQ = new FAQ();
-
-        endretFAQ.sporsmal = this.FAQSkjema.value.sporsmal;
-        endretFAQ.svar = this.FAQSkjema.value.svar;
-
-        const body: string = JSON.stringify(endretFAQ);
-        const headers = new HttpHeaders({ "Content-Type": "application/json" });
-
-        this._http.put("api/faq/" + this.FAQSkjema.value.id, body, { headers: headers })
-            .subscribe(
-                () => {
-                    this.hentAlleFAQ();
-                    this.visFAQ = false;
-                    this.visFAQListe = true;
-                    this.visInnsporsmalListe = false;
-                    this.visInnsporsmal = false;
-                    this.visHjem = false;
-                    console.log("Ferdig med post-api/faq");
-                },
-                error => alert(error)
-            );
-    }
 
     //Metoder for navbar
     isExpanded = false;
