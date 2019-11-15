@@ -44,7 +44,6 @@ namespace IndividuellAngular
         {
             var nyFaq = new FAQ
             {
-                id = innFaq.id,
                 sporsmal = innFaq.sporsmal,
                 svar = innFaq.svar,
                 upvote = innFaq.upvote,

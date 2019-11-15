@@ -1,7 +1,3 @@
-<head>
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-</head>
-
 <header>
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container">
@@ -38,6 +34,7 @@
     </div>
   </nav>
 </header>
+
 
 <body>
   <!-- Visning av hjem div -->
@@ -198,27 +195,82 @@
       <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>
     </div>
   </div>-->
-  <!-- Visning av FAQ div TEEEEEEEEEST-->
+  <!-- Visning av FAQ div TEEEEEEEEEST
   <div class="container" style="text-align:center" *ngIf="visFAQListe">
     <div style="display: inline-block; text-align: left">
       <h2>FAQ - Frequently asked questions</h2>
       <div *ngIf="laster">Laster FAQ.....</div>
-      
-      <div *ngFor="let faq of alleFAQ">
-        <ul>{{faq.kategori}}</ul>
-        <li>{{faq.sporsmal}}</li>
-        <li>{{faq.svar}}</li>
-        <button class="btn btn-success" (click)="endreInnsporsmal(faq.id)">Upvote</button>
-        <button class="btn btn-danger" (click)="slettInnsporsmal(faq.id)">Downvote</button>
-
-      </div>
-     
 
 
-      <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
-      <button class="btn btn-primary" (click)="registrerInnsporsmal()">Send inn spørsmål</button> ┆
-      <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>
+  <div *ngFor="let kategori of alleFAQ">
+    <div id="kategori-1">
+      <a class="btn btn-primary" href="#innhold-{{kategori.kategoriId}}" data-toggle="collapse"> {{kategori.kategoriNavn}}</a>
     </div>
+      <div id="innhold-{{kategori.kategoriId}}" class="collapse" aria-labelledby="kategori-1">
+      <div *ngFor="let sporsmal of kategori.AlleFAQList">
+        <a href="#svar-{{sporsmal.id}}" class="btn btn-primary collapse" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-1-1">{{sporsmal.sporsmal}}</a>
+        <div id="svar-{{sporsmal.id}}" class="collapse">{{sporsmal.svar}}</div>
+      </div>
+    </div>
+  </div>
+        -->
+  <!-- DIV for FAQ -->
+  <div class="container" *ngIf="visFAQListe">
+    <h2>FAQ</h2>
+    <p>Her kan du se regelmessig stilte spørsmål til Vy sine sider.</p>
+    <!-- Trestruktur -->
+    <div *ngIf="laster">Laster FAQs.....</div>
+    <div id="accordion">
+      <div class="card" *ngFor="let kategori of alleFAQ">
+        <div class="card-header" id="kategori-1">
+          <h5 class="mb-0">
+            <a role="button" data-toggle="collapse" href="#innhold-{{kategori.kategoriId}}" aria-expanded="true" aria-controls="collapse-1">
+              {{kategori.kategoriNavn}}
+            </a>
+          </h5>
+        </div>
+
+        <div id="innhold-{{kategori.id}}" class="collapse" data-parent="#accordion" aria-labelledby="kategori-1">
+          <div class="card-body">
+            <div id="accordion-1-2" *ngFor="let spoersmaal of kategori.faq">
+              <div class="card">
+                <div class="card-header" id="spørsmål-1-1">
+                  <h5 class="mb-0">
+                    <a class="collapsed" role="button" data-toggle="collapse" href="#svar-{{spoersmaal.id}}" aria-expanded="false" aria-controls="collapse-1-1">
+                      {{spoersmaal.sporsmal}}
+                    </a>
+                  </h5>
+                </div>
+
+                <div id="svar-{{spoersmaal.id}}" class="collapse" data-parent="#accordion-1-2" aria-labelledby="spørsmål-1-1">
+                  <div class="card-body">
+                    {{spoersmaal.svar}} <br><br>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+    <div class="container">
+      <h2>Simple Collapsible</h2>
+      <a href="#demo" class="btn btn-primary" data-toggle="collapse">Simple collapsible</a>
+      <div id="demo" class="collapse">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      </div>
+    </div>
+
+
+    <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
+    <button class="btn btn-primary" (click)="registrerInnsporsmal()">Send inn spørsmål</button> ┆
+    <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>
+  </div>
   </div>
 </body>
 

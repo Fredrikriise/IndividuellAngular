@@ -12,4 +12,10 @@ var InnSporsmal = /** @class */ (function () {
     return InnSporsmal;
 }());
 exports.InnSporsmal = InnSporsmal;
+var Kategori = /** @class */ (function () {
+    function Kategori() {
+    }
+    return Kategori;
+}());
+exports.Kategori = Kategori;
 //# sourceMappingURL=KundeService.js.map

@@ -3,13 +3,17 @@ export class FAQ {
     sporsmal: string;
     svar: string;
     kategori: string;
+    upvote: number;
+    downvote: number;
 }
 
 export interface IFAQ {
     id: number;
     sporsmal: string;
     svar: string;
-    kategori: string;
+    kategori: Kategori;
+    upvote: number;
+    downvote: number;
 }
 
 export class InnSporsmal {
@@ -24,4 +28,16 @@ export interface IInnsporsmal {
     navn: string;
     email: string;
     sporsmal: string;
+}
+
+export class Kategori {
+    kategoriId: number;
+    kategoriNavn: string;
+    AlleFAQList: FAQ;
+}
+
+export interface IKategori {
+    kategoriId: number;
+    kategoriNavn: string;
+    AlleFAQList: FAQ;
 }

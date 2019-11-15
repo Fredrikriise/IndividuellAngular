@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { FAQ, IFAQ } from "./KundeService";
 import { InnSporsmal, IInnsporsmal } from "./KundeService";
+import { Kategori, IKategori } from "./KundeService";
 
 
 @Component({
@@ -22,7 +23,7 @@ export class AppComponent {
     visFAQ: boolean;
     FAQStatus: string;
     visFAQListe: boolean;
-    alleFAQ: Array<FAQ>;
+    alleFAQ: Array<Kategori>;
     FAQSkjema: FormGroup;
 
     visFAQTree: boolean;
@@ -150,7 +151,7 @@ export class AppComponent {
 
     //Metoder for FAQ
     hentAlleFAQ() {
-        this._http.get<IFAQ[]>("api/faq/")
+        this._http.get<IKategori[]>("api/faq/")
             .subscribe(
                 FAQene => {
                     this.alleFAQ = FAQene;
