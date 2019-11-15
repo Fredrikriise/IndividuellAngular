@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using IndividuellAngular.Models;
 using Microsoft.AspNetCore.Mvc;
-using IndividuellAngular.Models;
+using System.Collections.Generic;
 
 namespace IndividuellAngular.Controllers
 {
@@ -16,7 +15,7 @@ namespace IndividuellAngular.Controllers
             _dbcontext = dbcontext;
         }
 
-        //GET api / Lister alle spørsmål
+        //GET api/innsporsmal - Lister alle spørsmål
         [HttpGet]
         public JsonResult Get()
         {
@@ -25,7 +24,7 @@ namespace IndividuellAngular.Controllers
             return Json(alleInnSporsmal);
         }
 
-        // POST api / Oppretter nytt spørsmål 
+        // POST api/innsporsmal - Oppretter nytt spørsmål 
         [HttpPost]
         public JsonResult Post([FromBody]innsporsmal innSporsmal)
         {

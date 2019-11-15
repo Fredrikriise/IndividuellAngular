@@ -17,33 +17,27 @@ namespace IndividuellAngular
             _dbcontext.Database.EnsureCreated();
         }
 
+
+        /////////////////PRØV Å SKRIV OM DENNE METODEN, SE SPA-8 TIL TOR////////////////////
         //Metoder for faq
-        public List<faq> hentAlleFaq()
+        public List<KategoriOgSporsmal> hentAlleFaq()
         {
-            List<faq> alleFaq = _dbcontext.AlleFaq.Select(f => new faq()
+            var alleKategorier = _dbcontext.AlleKategorier.ToList();
+            List<KategoriOgSporsmal> alleKategorierListe = new List<KategoriOgSporsmal>();
+
+
+            foreach (var enKategori in alleKategorier)
             {
-                id = f.id,
-                sporsmal = f.sporsmal,
-                svar = f.svar,
-                kategori = f.kategori
-            }).ToList();
-
-            return alleFaq;
-        }
-
-        public faq hentEnFaq(int id)
-        {
-            //Bruker FirstOrDefault etter som at lazy loading ikke støttes av core
-            FAQ enDBFaq = _dbcontext.AlleFaq.FirstOrDefault(f => f.id == id);
-
-            var enFaq = new faq()
-            {
-                id = enDBFaq.id,
-                sporsmal = enDBFaq.sporsmal,
-                svar = enDBFaq.svar,
-                kategori = enDBFaq.kategori
-            };
-            return enFaq;
+                var enFaq = _dbcontext.AlleFaq.Where(faq => faq.kategoriNavn.kategoriId == enKategori.kategoriId).ToList();
+                var etKategoriogsporsmal = new KategoriOgSporsmal
+                {
+                    kategoriId = enKategori.kategoriId,
+                    kategoriNavn = enKategori.kategoriNavn,
+                    AlleFAQList = enFaq
+                };
+                alleKategorierListe.Add(etKategoriogsporsmal);
+            }
+            return alleKategorierListe;
         }
 
         public bool largeEnFaq(faq innFaq)
@@ -53,52 +47,31 @@ namespace IndividuellAngular
                 id = innFaq.id,
                 sporsmal = innFaq.sporsmal,
                 svar = innFaq.svar,
-                kategori = innFaq.kategori
+                upvote = innFaq.upvote,
+                downvote = innFaq.downvote
             };
+
+            // Kategori nyKategori = _dbcontext.AlleKategorier.Where(kategori => kategori.kategoriNavn == innFaq.kategoriNavn).First();
+            Kategori funnetKategori = _dbcontext.AlleKategorier.Find(innFaq.kategoriNavn);
+            if (funnetKategori == null)
+            {
+                //Oppretter ny kategori
+                var nyKategori = new Kategori
+                {
+                    kategoriNavn = innFaq.kategoriNavn
+                };
+                nyFaq.kategoriNavn = nyKategori;
+                _dbcontext.AlleKategorier.Add(nyKategori);
+                _dbcontext.SaveChanges();
+            }
+            else
+            {
+                nyFaq.kategoriNavn = funnetKategori;
+            }
 
             try
             {
                 _dbcontext.AlleFaq.Add(nyFaq);
-                _dbcontext.SaveChanges();
-            }
-            catch (Exception error)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool endreEnFaq(int id, faq innFaq)
-        {
-            //Bruker FirstOrDefault etter som at lazy loading ikke støttes av core
-            FAQ funnetFaq = _dbcontext.AlleFaq.FirstOrDefault(f => f.id == id);
-            if (funnetFaq == null)
-            {
-                return false;
-            }
-
-            funnetFaq.sporsmal = innFaq.sporsmal;
-            funnetFaq.svar = innFaq.svar;
-            funnetFaq.kategori = innFaq.kategori;
-
-            try
-            {
-                _dbcontext.SaveChanges();
-            }
-            catch (Exception error)
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public bool slettEnFaq(int id)
-        {
-            try
-            {
-                //Bruker FirstOrDefault etter som at lazy loading ikke støttes av core
-                FAQ finnFaq = _dbcontext.AlleFaq.FirstOrDefault(f => f.id == id);
-                _dbcontext.AlleFaq.Remove(finnFaq);
                 _dbcontext.SaveChanges();
             }
             catch (Exception error)

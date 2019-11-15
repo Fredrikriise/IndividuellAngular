@@ -23,7 +23,7 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link text-dark" (click)='tilbakeTilFAQTree()'>FAQ</a>
+            <a class="nav-link text-dark" (click)='tilbakeTilFAQListe()'>FAQ</a>
           </li>
 
           <li class="nav-item">
@@ -53,17 +53,6 @@
       <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>┆
       <button class="btn btn-primary" (click)="registrerFAQ()">Gå til registrering av FAQ</button>
     </div>
-  </div>
-
-  <!-- Visning av FAQ -->
-  <div class="container" style="text-align:center" *ngIf="visFAQTree">
-    <h2>FAQ - Frequently asked questions</h2>
-    <p>Her finner du svar på ofte spurte spørsmål</p>
-    <faq-root></faq-root>
-
-    <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
-    <button class="btn btn-primary" (click)="registrerInnsporsmal()">Send inn spørsmål</button>┆
-    <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>
   </div>
 
   <!-- Visning av alle innsendte spørsmål div -->
@@ -119,7 +108,7 @@
         </div>
         <div class="form-group">
           <label>Spørsmål</label>
-          <input class="form-control" formControlName="sporsmal" placeholder="Hva lurer du på?" />
+          <textarea class="form-control" formControlName="sporsmal" rows="3" placeholder="Hva lurer du på?"></textarea>
           <p class="alert alert-warning" [hidden]="InnsporsmalSkjema.controls.sporsmal.valid || (InnsporsmalSkjema.controls.sporsmal.pristine && !submitted)">
             Spørsmål er obligatorisk!
           </p>
@@ -179,7 +168,7 @@
 
 
 
-  <!-- Visning av FAQ div -->
+  <!-- Visning av FAQ div
   <div class="container" style="text-align:center" *ngIf="visFAQListe">
     <div style="display: inline-block; text-align: left">
       <h2>FAQ - Frequently asked questions</h2>
@@ -204,12 +193,33 @@
       </table>
 
 
-      <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆	    <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
-      <button class="btn btn-primary" (click)="registrerInnsporsmal()">Send inn spørsmål</button> ┆	    <button class="btn btn-primary" (click)="registrerInnsporsmal()">Send inn spørsmål</button>┆
-      <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>	    <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>
+      <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
+      <button class="btn btn-primary" (click)="registrerInnsporsmal()">Send inn spørsmål</button> ┆
+      <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>
     </div>
-  </div>	 
+  </div>-->
+  <!-- Visning av FAQ div TEEEEEEEEEST-->
+  <div class="container" style="text-align:center" *ngIf="visFAQListe">
+    <div style="display: inline-block; text-align: left">
+      <h2>FAQ - Frequently asked questions</h2>
+      <div *ngIf="laster">Laster FAQ.....</div>
+      
+      <div *ngFor="let faq of alleFAQ">
+        <ul>{{faq.kategori}}</ul>
+        <li>{{faq.sporsmal}}</li>
+        <li>{{faq.svar}}</li>
+        <button class="btn btn-success" (click)="endreInnsporsmal(faq.id)">Upvote</button>
+        <button class="btn btn-danger" (click)="slettInnsporsmal(faq.id)">Downvote</button>
 
+      </div>
+     
+
+
+      <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
+      <button class="btn btn-primary" (click)="registrerInnsporsmal()">Send inn spørsmål</button> ┆
+      <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>
+    </div>
+  </div>
 </body>
 
 

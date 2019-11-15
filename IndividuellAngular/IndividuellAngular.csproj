@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <PackageReference Include="Angular.Material" Version="1.1.12" />
-    <PackageReference Include="EntityFramework" Version="6.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
@@ -34,12 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\faq\faq.component.ts" />
     <None Remove="ClientApp\src\app\KundeService.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\faq\faq.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\KundeService.ts" />
   </ItemGroup>
 
