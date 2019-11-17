@@ -1,32 +1,29 @@
 <header>
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <img src="/assets/images/vylogonavbar.png" style="cursor:pointer" (click)='tilbakeTilHjem()' />
     <div class="container">
-      <a class="navbar-brand">Vy Kundeservice</a>
-      <button class="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target=".navbar-collapse"
-              aria-label="Toggle navigation"
-              [attr.aria-expanded]="isExpanded"
-              (click)="toggle()">
-        <span class="navbar-toggler-icon"></span>
+      <a class="navbar-brand" style="cursor:pointer" (click)='tilbakeTilHjem()'>Vy Kundeservice</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-label="Toggle navigation"
+              [attr.aria-expanded]="isExpanded" (click)="toggle()">
+      <span class="navbar-toggler-icon"></span>
       </button>
       <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
            [ngClass]="{ show: isExpanded }">
         <ul class="navbar-nav flex-grow">
-          <li class="nav-item">
+          <li class="nav-item" style="cursor:pointer">
             <a class="nav-link text-dark" (click)='tilbakeTilHjem()'>Hjem</a>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item" style="cursor:pointer">
             <a class="nav-link text-dark" (click)='tilbakeTilFAQListe()'>FAQ</a>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item" style="cursor:pointer">
             <a class="nav-link text-dark" (click)='registrerInnsporsmal()'>Send inn spørsmål</a>
           </li>
 
-          <li class="nav-item">
+          <li class="nav-item" style="cursor:pointer">
             <a class="nav-link text-dark" (click)='tilbakeTilInnsporsmal()'>Innsendte spørsmål</a>
           </li>
         </ul>
@@ -56,6 +53,7 @@
   <div class="container" style="text-align:center" *ngIf="visInnsporsmalListe">
     <div style="display: inline-block; text-align: left">
       <h1>Velkommen til Vy kundeservice</h1>
+      <p>Her kan du se tidligere innsendte spørsmål</p>
       <div *ngIf="laster">Laster skjema.....</div>
       <table class="table table-bordered table-condensed">
         <thead>
@@ -70,15 +68,13 @@
             <td>{{innsporsmal.navn}}</td>
             <td>{{innsporsmal.email}}</td>
             <td>{{innsporsmal.sporsmal}}</td>
-            <td><button class="btn btn-danger" (click)="slettInnsporsmal(innsporsmal.id)">Slett</button></td>
-            <td><button class="btn btn-success" (click)="endreInnsporsmal(innsporsmal.id)">Endre</button></td>
           </tr>
         </tbody>
       </table>
 
       <button class="btn btn-primary" (click)="registrerInnsporsmal()">Gå til innsending av spørsmål</button> ┆
       <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
-      <button class="btn btn-primary" (click)="tilbakeTilFAQTree()">Gå til FAQ</button>
+      <button class="btn btn-primary" (click)="tilbakeTilFAQListe()">Gå til FAQ</button>
     </div>
   </div>
 
@@ -92,7 +88,7 @@
           <label>Navn</label>
           <input class="form-control" formControlName="navn" placeholder="Navn" />
           <p class="alert alert-warning" [hidden]="InnsporsmalSkjema.controls.navn.valid || (InnsporsmalSkjema.controls.navn.pristine && !submitted)">
-            Navn er obligatorisk!
+            Du er nødt til å skrive inn et navn! Eksempel: "Per Persen"
           </p>
         </div>
 
@@ -100,63 +96,21 @@
           <label>Epost</label>
           <input class="form-control" formControlName="email" placeholder="Epostadresse" />
           <p class="alert alert-warning" [hidden]="InnsporsmalSkjema.controls.email.valid || (InnsporsmalSkjema.controls.email.pristine && !submitted)">
-            Email er obligatorisk!
+            Du er nødt til å skrive inn en epostadresse! Eksempel: eksempel@gmail.com
           </p>
         </div>
         <div class="form-group">
           <label>Spørsmål</label>
           <textarea class="form-control" formControlName="sporsmal" rows="3" placeholder="Hva lurer du på?"></textarea>
           <p class="alert alert-warning" [hidden]="InnsporsmalSkjema.controls.sporsmal.valid || (InnsporsmalSkjema.controls.sporsmal.pristine && !submitted)">
-            Spørsmål er obligatorisk!
+            Du er nødt til å skrive inn et spørsmål. Et spørsmål må bestå av minst 5 tegn.
           </p>
         </div>
-
         <div class="form-group">
           <button type="submit" *ngIf="InnsporsmalStatus=='RegistrereSporsmal'" [disabled]="!InnsporsmalSkjema.valid" class="btn btn-success">Send inn spørsmål</button> ┆
           <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Gå til alle innsendte spørsmål</button> ┆
           <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
-          <button class="btn btn-primary" (click)="tilbakeTilFAQTree()">Gå til FAQ</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Visning av registrering av ny faq div-->
-  <div class="container" style="text-align:center" *ngIf="visFAQ">
-    <div style="display: inline-block; text-align: left">
-      <h2>Send inn FAQ</h2>
-      <form [formGroup]="FAQSkjema" (ngSubmit)="onSubmit()">
-        <input class="form-control" formControlName="id" type="hidden" />
-
-        <div class="form-group">
-          <label>Spørsmål</label>
-          <input class="form-control" formControlName="sporsmal" placeholder="Spørsmål" />
-          <p class="alert alert-warning" [hidden]="FAQSkjema.controls.sporsmal.valid || (FAQSkjema.controls.sporsmal.pristine && !submitted)">
-            Spørsmål er obligatorisk!
-          </p>
-        </div>
-
-        <div class="form-group">
-          <label>Svar</label>
-          <input class="form-control" formControlName="svar" placeholder="Svar" />
-          <p class="alert alert-warning" [hidden]="FAQSkjema.controls.svar.valid || (FAQSkjema.controls.svar.pristine && !submitted)">
-            Svar er obligatorisk!
-          </p>
-        </div>
-
-        <div class="form-group">
-          <label>Kategori</label>
-          <input class="form-control" formControlName="kategori" placeholder="Kategori" />
-          <p class="alert alert-warning" [hidden]="FAQSkjema.controls.kategori.valid || (FAQSkjema.controls.kategori.pristine && !submitted)">
-            Kategori er obligatorisk!
-          </p>
-        </div>
-
-        <div class="form-group">
-          <button type="submit" *ngIf="FAQStatus=='RegistrerFAQ'" [disabled]="!FAQSkjema.valid" class="btn btn-success">Send inn spørsmål</button> ┆
-          <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Gå til alle innsendte spørsmål</button> ┆
-          <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
-          <button class="btn btn-primary" (click)="tilbakeTilFAQTree()">Gå til FAQ</button>
+          <button class="btn btn-primary" (click)="tilbakeTilFAQListe()">Gå til FAQ</button>
         </div>
       </form>
     </div>
@@ -165,36 +119,38 @@
   <!-- FAQ Trestruktur -->
   <div class="container" *ngIf="visFAQListe">
     <h2>FAQ - Frequently asked questions</h2>
-    <p>Her får du svar på ofte spurte spørsmål</p>
+    <p>På denne får du svar på ofte spurte spørsmål. Dersom du ikke får svar på det du lurer på, <br> kan du også sende inn spørsmål til oss ved å henvende deg til "Send inn spørsmål".</p>
     <div *ngIf="laster">Laster FAQs.....</div>
     <div class="accordion" id="kategori">
-      <div  *ngFor="let kategori of alleFAQ">
-        <div id="headingOne"><!--class="card-header" --> 
-          <h2 class="mb-0">
-            <button mat-icon-button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#kategori-' + kategori.kategoriId" aria-expanded="true">
-              {{kategori.kategoriNavn}}
-            </button>
-          </h2>
+      <div *ngFor="let kategori of alleFAQ">
+        <div id="headingOne">
+          <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#kategori-' + kategori.kategoriId" aria-expanded="true">
+            <font size="3">{{kategori.kategoriNavn}}</font> <br />
+            <img src="/assets/images/subarrow.png" align="left" style="vertical-align:top;" />
+          </button> <br />
         </div>
 
-        <div id="kategori-{{kategori.kategoriId}}" class="collapse" data-parent="#kategori">
+        <div id="kategori-{{kategori.kategoriId}}" class="collapse" data-parent="#kategori" style="vertical-align:top;">
           <div class="card-body" id="faq">
             <div class="card" *ngFor="let sporsmal of kategori.alleFAQList">
               <div class="card-header" id="headingOne">
                 <h2 class="mb-0">
                   <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#sporsmal-' + sporsmal.id" aria-expanded="true">
-                    {{sporsmal.sporsmal}}
+                    {{sporsmal.sporsmal}} <br />
+                    <img src="/assets/images/subarrow.png" align="left" style="vertical-align:top;" />
                   </button>
                 </h2>
               </div>
-              
+
               <div id="sporsmal-{{sporsmal.id}}" class="collapse" data-parent="#faq">
                 <div class="card-body">
                   {{sporsmal.svar}} <br /><br />
-                  <img src="https://cdn2.iconfinder.com/data/icons/drf/PNG/up_alt.png" (click)="upvoteUpdate(sporsmal.id)" />{{sporsmal.upvote}}
-               
-                  <button (click)="downvoteUpdate(sporsmal.id)">{{sporsmal.id}}</button> | {{sporsmal.downvote}}
-                  
+
+                  Var dette et godt svar på det du lurte på? <br />
+                  <img src="/assets/images/thumbs-up.png" (click)="upvoteUpdate(sporsmal.id)" /> {{sporsmal.upvote}}
+                  <br />
+                  <img src="/assets/images/thumb-down.png" (click)="downvoteUpdate(sporsmal.id)" /> {{sporsmal.downvote}}
+
                 </div>
               </div>
             </div>
@@ -202,21 +158,10 @@
         </div>
       </div>
     </div>
-
-
-
-    <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" data-target="#multiCollapseExample1" role="button" aria-expanded="false">Kategori</a>
-
-    <div class="collapse multi-collapse" id="multiCollapseExample1">
-      <div class="card card-body">
-        <a data-toggle="collapse" aria-expanded="false">
-          Spørsmål
-        </a>
-      </div>
-      <div class="card card-body">
-        Svar
-      </div>
-    </div>
+    <br/>
+    <button class="btn btn-primary" (click)="tilbakeTilHjem()">Gå til hjem</button> ┆
+    <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Gå til alle innsendte spørsmål</button> ┆
+    <button class="btn btn-primary" (click)="tilbakeTilFAQListe()">Gå til innsending av spørsmål</button>
   </div>
 </body>
 

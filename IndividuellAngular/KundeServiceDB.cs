@@ -17,10 +17,7 @@ namespace IndividuellAngular
             _dbcontext.Database.EnsureCreated();
         }
 
-
-        /////////////////PRØV Å SKRIV OM DENNE METODEN, SE SPA-8 TIL TOR////////////////////
         //Metoder for faq
-       
         public List<KategoriOgSporsmal> hentAlleFaq()
         {
             var alleKategorier = _dbcontext.AlleKategorier.ToList();
@@ -41,7 +38,6 @@ namespace IndividuellAngular
             return alleKategorierListe;
         }
 
-        
 
         public bool largeEnFaq(faq innFaq)
         {
@@ -147,7 +143,7 @@ namespace IndividuellAngular
                 return false;
             }
 
-            funnetFAQ.downvote--;
+            funnetFAQ.downvote++;
             try
             {
                 _dbcontext.SaveChanges();

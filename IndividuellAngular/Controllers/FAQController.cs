@@ -42,6 +42,7 @@ namespace IndividuellAngular.Controllers
         }
 
         //Update api/faq/"id"
+        [Route("[action]/{id}")]
         [HttpPut("{id}")]
         public JsonResult Put(int id)
         {
@@ -51,11 +52,28 @@ namespace IndividuellAngular.Controllers
                 bool OK = kundeserviceDb.endreUpvote(id);
                 if(OK)
                 {
-                    return Json("Endring av upvate var suksessfult");
+                    return Json("Endring av upoate var suksessfult");
                 }
             }
             return Json("Kunne ikke endre upvote");
         }
-        
+
+        //Update api/faq/"id"
+        [Route("[action]/{id}")]
+        [HttpPut("{id}")]
+        public JsonResult PutDown(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                var kundeserviceDb = new KundeServiceDB(_dbcontext);
+                bool OK = kundeserviceDb.endreDownvote(id);
+                if (OK)
+                {
+                    return Json("Endring av downvote var suksessfult");
+                }
+            }
+            return Json("Kunne ikke endre downvote");
+        }
+
     }
 }

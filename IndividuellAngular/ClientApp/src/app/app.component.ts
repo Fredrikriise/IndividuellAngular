@@ -20,13 +20,9 @@ export class AppComponent {
     laster: boolean;
     visHjem: boolean;
 
-    visFAQ: boolean;
     FAQStatus: string;
     visFAQListe: boolean;
     alleFAQ: Array<Kategori>;
-    FAQSkjema: FormGroup;
-
-    visFAQTree: boolean;
 
     constructor(private _http: HttpClient, private fb: FormBuilder) {
         this.InnsporsmalSkjema = fb.group({
@@ -35,33 +31,21 @@ export class AppComponent {
             email: [null, Validators.compose([Validators.required, Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$")])],
             sporsmal: [null, Validators.compose([Validators.required, Validators.pattern("^[a-zøæåA-ZØÆÅ.0-9#&/()%?!,@+'-_:; \\-]{5,999}$")])],
         });
-
-        this.FAQSkjema = fb.group({
-            id: [""],
-            kategori: [null, Validators.compose([Validators.required, Validators.pattern("[a-zA-ZøæåØÆÅ\\-.0-9]{2,50}")])],
-            sporsmal: [null, Validators.compose([Validators.required, Validators.pattern("^[a-zøæåA-ZØÆÅ.0-9#&/()%?!,@+'-_:; \\-]{5,9999}$")])],
-            svar: [null, Validators.compose([Validators.required, Validators.pattern("^[a-zøæåA-ZØÆÅ.0-9#&/()%?!,@+'-_:; \\-]{5,9999}$")])]
-        });
     }
 
     ngOnInit() {
         this.laster = true;
         this.hentAlleFAQ();
-        this.visFAQ = false;
         this.visFAQListe = false;
         this.visHjem = true;
         this.hentAlleInnsporsmal();
         this.visInnsporsmal = false;
         this.visInnsporsmalListe = false;
-        this.visFAQTree = false;
     }
 
     onSubmit() {
         if (this.InnsporsmalStatus == "RegistrereSporsmal") {
             this.lagreInnsporsmal();
-        }
-        else if (this.FAQStatus == "RegistrerFAQ") {
-            this.lagreFAQ();
         }
         else {
             alert("Feil ved registrering!");
@@ -80,32 +64,19 @@ export class AppComponent {
             );
     };
 
-    tilbakeTilFAQTree() {
-        this.visFAQTree = true;
-        this.visInnsporsmalListe = false;
-        this.visInnsporsmal = false;
-        this.visHjem = false;
-        this.visFAQ = false;
-        //this.visFAQListe = false;
-    }
-
     tilbakeTilInnsporsmal() {
         this.hentAlleInnsporsmal();
         this.visInnsporsmalListe = true;
         this.visInnsporsmal = false;
         this.visHjem = false;
-        this.visFAQ = false;
-        //this.visFAQListe = false;
-        this.visFAQTree = false;
+        this.visFAQListe = false;
     }
 
     tilbakeTilHjem() {
         this.visInnsporsmalListe = false;
         this.visInnsporsmal = false;
         this.visHjem = true;
-        this.visFAQ = false;
-        //this.visFAQListe = false;
-        this.visFAQTree = false;
+        this.visFAQListe = false;
     }
 
     lagreInnsporsmal() {
@@ -144,9 +115,7 @@ export class AppComponent {
         this.InnsporsmalStatus = "RegistrereSporsmal";
         this.visInnsporsmal = true;
         this.visHjem = false;
-        this.visFAQ = false;
-        //this.visFAQListe = false;
-        this.visFAQTree = false;
+        this.visFAQListe = false;
     }
 
     //Metoder for FAQ
@@ -162,61 +131,12 @@ export class AppComponent {
             );
     };
 
-    registrerFAQ() {
-        this.FAQSkjema.setValue({
-            id: "",
-            sporsmal: "",
-            svar: "",
-            kategori: "",
-        });
-
-        //Setter statusen til skjemaet som "uberørt" slik at det ikke blir skrevet ut valederings-feilmeldinger
-        this.FAQSkjema.markAsPristine();
-        this.visFAQ = false;
-        this.FAQStatus = "RegistrerFAQ";
-        this.visFAQ = true;
-        this.visFAQTree = false;
-        this.visHjem = false;
-    }
-
-    tilbakeTilFAQ() {
-        //this.visFAQListe = false;
-        this.visFAQ = true;
-        this.visHjem = false;
-        this.visInnsporsmal = false;
-        this.visInnsporsmalListe = false;
-        this.visFAQTree = false;
-    }
-
     tilbakeTilFAQListe() {
-        this.visFAQListe = true;
-        this.visFAQ = false;
         this.visHjem = false;
         this.visInnsporsmal = false;
         this.visInnsporsmalListe = false;
-        this.visFAQTree = false;
+        this.visFAQListe = true;
     }
-
-    lagreFAQ() {
-        var lagretFAQ = new FAQ();
-        lagretFAQ.sporsmal = this.FAQSkjema.value.sporsmal;
-        lagretFAQ.svar = this.FAQSkjema.value.svar;
-        lagretFAQ.kategori = this.FAQSkjema.value.kategori;
-
-        const body: string = JSON.stringify(lagretFAQ);
-        const headers = new HttpHeaders({ "Content-Type": "application/json" });
-
-        this._http.post("api/faq", body, { headers: headers })
-            .subscribe(
-                () => {
-                    this.registrerFAQ();
-                    //this.visFAQListe = true;
-                    console.log("Ferdig med post-api/faq");
-                },
-                error => alert(error),
-            );
-    };
-
 
 
     //Metoder for upvotes og downvotes
@@ -239,7 +159,7 @@ export class AppComponent {
         const body: string = JSON.stringify(oppdaterUpvote);
         const headers = new HttpHeaders({ "Content-Type": "application/json" });
 
-        this._http.put("api/faq/" + id, body, { headers: headers }).subscribe();
+        this._http.put("api/faq/Put/" + id, body, { headers: headers }).subscribe();
     }
 
     downvoteUpdate(id: Number) {
@@ -254,14 +174,13 @@ export class AppComponent {
             }
         }
 
-        oppdaterDownVote.downvote--;
-
+        oppdaterDownVote.downvote++;
 
         const body: string = JSON.stringify(oppdaterDownVote);
         const headers = new HttpHeaders({ "Content-Type": "application/json" });
-
-        this._http.put("api/faq/" + id, body, { headers: headers }).subscribe();
+        this._http.put("api/faq/PutDown/" + id, body, { headers: headers }).subscribe();
     }
+
 
     //Metoder for navbar
     isExpanded = false;
