@@ -35,10 +35,11 @@ namespace IndividuellAngular.Models
         public string sporsmal { get; set; }
     }
 
+    /*
     public class KategoriOgSporsmal
     {
         public int kategoriId { get; set; }
         public string kategoriNavn { get; set; }
         public List<FAQ> AlleFAQList { get; set; }
-    }
+    }*/
 }

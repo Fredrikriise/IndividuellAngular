@@ -17,7 +17,6 @@ namespace IndividuellAngular.Models
 
     public class Kategori
     {
-        [Key]
         public int kategoriId { get; set; }
         public string kategoriNavn { get; set; }
     }

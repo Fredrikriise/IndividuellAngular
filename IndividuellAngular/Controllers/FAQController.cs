@@ -21,8 +21,8 @@ namespace IndividuellAngular.Controllers
         public JsonResult Get()
         {
             var kundeserviceDb = new KundeServiceDB(_dbcontext);
-            List<KategoriOgSporsmal> alleFaq = kundeserviceDb.hentAlleFaq();
-            return Json(alleFaq);
+            List<KategoriOgSporsmal> alleFAQ = kundeserviceDb.hentAlleFaq();
+            return Json(alleFAQ);
         }
 
         // POST api/faq - Oppretter ny faq

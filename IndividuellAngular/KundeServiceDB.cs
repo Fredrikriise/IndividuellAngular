@@ -20,6 +20,7 @@ namespace IndividuellAngular
 
         /////////////////PRØV Å SKRIV OM DENNE METODEN, SE SPA-8 TIL TOR////////////////////
         //Metoder for faq
+       
         public List<KategoriOgSporsmal> hentAlleFaq()
         {
             var alleKategorier = _dbcontext.AlleKategorier.ToList();
@@ -33,12 +34,32 @@ namespace IndividuellAngular
                 {
                     kategoriId = enKategori.kategoriId,
                     kategoriNavn = enKategori.kategoriNavn,
-                    AlleFAQList = enFaq
+                    AlleFAQList = enFaq,
                 };
                 alleKategorierListe.Add(etKategoriogsporsmal);
             }
             return alleKategorierListe;
         }
+
+        /*
+           public List<KategoriOgSporsmal> hentAlleFaq()
+       {
+           var kategorier = _dbcontext.AlleKategorier.ToList();
+           List<KategoriOgSporsmal> kategoriListe = new List<KategoriOgSporsmal>();
+
+           foreach(var kategori in kategorier)
+           {
+               var spoersmaal = _dbcontext.AlleFaq.Where(f => f.kategoriNavn.kategoriId == kategori.kategoriId).ToList();
+               var kategoriSpoersmaal = new KategoriOgSporsmal
+               {
+                   kategoriId = kategori.kategoriId,
+                   kategoriNavn = kategori.kategoriNavn,
+                   AlleFAQList = spoersmaal
+               };
+               kategoriListe.Add(kategoriSpoersmaal);
+           }
+           return kategoriListe;
+       }*/
 
         public bool largeEnFaq(faq innFaq)
         {
