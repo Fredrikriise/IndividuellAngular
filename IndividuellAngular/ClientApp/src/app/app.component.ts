@@ -218,6 +218,38 @@ export class AppComponent {
     };
 
 
+
+    //Metoder for upvotes og downvotes
+    upvoteUpdate(id: Number) {
+
+        let oppdaterUpvote: FAQ;
+        
+
+        for (let i = 0; i < this.alleFAQ.length; i++) {
+            for (let j = 0; j < this.alleFAQ[i].alleFAQList[].length)
+            if (id === this.alleFAQ[i].alleFAQList[0].id) {
+                oppdaterUpvote = this.alleFAQ[i].alleFAQList[];
+            }
+        }
+
+        oppdaterUpvote.upvote++;
+
+
+        const body: string = JSON.stringify(oppdaterUpvote);
+        const headers = new HttpHeaders({ "Content-Type": "application/json" });
+
+        this._http.put("api/faq/" + id, body, { headers: headers }).subscribe();
+    }
+
+    /*console.log(id);
+    console.log(this.alleFAQ[1].alleFAQList[0]);
+    console.log(this.alleFAQ[i].alleFAQList[0].id);
+    */
+
+    downvote(downvote: number) {
+
+    }
+
     //Metoder for navbar
     isExpanded = false;
 

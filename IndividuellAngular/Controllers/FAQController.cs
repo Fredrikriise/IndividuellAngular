@@ -41,5 +41,21 @@ namespace IndividuellAngular.Controllers
             return Json("Opprettelse av ny FAQ feilet!");
         }
 
+        //Update api/faq/"id"
+        [HttpPut("{id}")]
+        public JsonResult Put(int id)
+        {
+            if(ModelState.IsValid)
+            {
+                var kundeserviceDb = new KundeServiceDB(_dbcontext);
+                bool OK = kundeserviceDb.endreUpvote(id);
+                if(OK)
+                {
+                    return Json("Endring av upvate var suksessfult");
+                }
+            }
+            return Json("Kunne ikke endre upvote");
+        }
+        
     }
 }

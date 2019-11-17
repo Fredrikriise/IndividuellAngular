@@ -17,7 +17,6 @@ namespace IndividuellAngular.Models
         [Required]
         public int upvote { get; set; }
         public int downvote { get; set; }
-
     }
 
     public class innsporsmal
@@ -34,12 +33,4 @@ namespace IndividuellAngular.Models
         [RegularExpression("^[a-zøæåA-ZØÆÅ.0-9#&/()%?!,@+'-_:; \\-]{5,999}$")]
         public string sporsmal { get; set; }
     }
-
-    /*
-    public class KategoriOgSporsmal
-    {
-        public int kategoriId { get; set; }
-        public string kategoriNavn { get; set; }
-        public List<FAQ> AlleFAQList { get; set; }
-    }*/
 }

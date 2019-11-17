@@ -41,25 +41,7 @@ namespace IndividuellAngular
             return alleKategorierListe;
         }
 
-        /*
-           public List<KategoriOgSporsmal> hentAlleFaq()
-       {
-           var kategorier = _dbcontext.AlleKategorier.ToList();
-           List<KategoriOgSporsmal> kategoriListe = new List<KategoriOgSporsmal>();
-
-           foreach(var kategori in kategorier)
-           {
-               var spoersmaal = _dbcontext.AlleFaq.Where(f => f.kategoriNavn.kategoriId == kategori.kategoriId).ToList();
-               var kategoriSpoersmaal = new KategoriOgSporsmal
-               {
-                   kategoriId = kategori.kategoriId,
-                   kategoriNavn = kategori.kategoriNavn,
-                   AlleFAQList = spoersmaal
-               };
-               kategoriListe.Add(kategoriSpoersmaal);
-           }
-           return kategoriListe;
-       }*/
+        
 
         public bool largeEnFaq(faq innFaq)
         {
@@ -133,6 +115,28 @@ namespace IndividuellAngular
                 sporsmal = s.sporsmal
             }).ToList();
             return alleInnSporsmal;
+        }
+
+
+        //Metoder for upvote og downvote
+        public bool endreUpvote(int id)
+        {
+            FAQ funnetFAQ = _dbcontext.AlleFaq.First(k => k.id == id);
+            if(funnetFAQ == null)
+            {
+                return false;
+            }
+
+            funnetFAQ.upvote++;
+            try
+            {
+                _dbcontext.SaveChanges();
+            }
+            catch(Exception feil)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

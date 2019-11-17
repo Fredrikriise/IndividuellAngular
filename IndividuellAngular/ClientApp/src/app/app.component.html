@@ -35,7 +35,6 @@
   </nav>
 </header>
 
-
 <body>
   <!-- Visning av hjem div -->
   <div class="container" style="text-align:center" *ngIf="visHjem">
@@ -45,6 +44,7 @@
         Velkommen til Vy sin kundeservice side. Dersom du lurer på noe, får du mest sannsynlig svar på spørsmålet ditt her.<br />
         Hvis ikke, kan du sende inn spørsmålet du har, så vil vi svare deg i løpet av kort tid!
       </p>
+
       <button class="btn btn-primary" (click)="tilbakeTilFAQListe()">Gå til FAQ</button>┆
       <button class="btn btn-primary" (click)="registrerInnsporsmal()">Send inn spørsmål</button>┆
       <button class="btn btn-primary" (click)="tilbakeTilInnsporsmal()">Se alle spørsmål</button>┆
@@ -162,114 +162,60 @@
     </div>
   </div>
 
-
-  <!-- Visning av FAQ div TEEEEEEEEEST
-    <div class="container" style="text-align:center" *ngIf="visFAQListe">
-      <div style="display: inline-block; text-align: left">
-        <h2>FAQ - Frequently asked questions</h2>
-        <div *ngIf="laster">Laster FAQ.....</div>
-
-
-    <div *ngFor="let kategori of alleFAQ">
-      <div id="kategori-1">
-        <a class="btn btn-primary" href="#innhold-{{kategori.kategoriId}}" data-toggle="collapse"> {{kategori.kategoriNavn}}</a>
-      </div>
-        <div id="innhold-{{kategori.kategoriId}}" class="collapse" aria-labelledby="kategori-1">
-        <div *ngFor="let sporsmal of kategori.AlleFAQList">
-          <a href="#svar-{{sporsmal.id}}" class="btn btn-primary collapse" data-toggle="collapse" aria-expanded="false" aria-controls="collapse-1-1">{{sporsmal.sporsmal}}</a>
-          <div id="svar-{{sporsmal.id}}" class="collapse">{{sporsmal.svar}}</div>
+  <!-- FAQ Trestruktur -->
+  <div class="container" *ngIf="visFAQListe">
+    <h2>FAQ - Frequently asked questions</h2>
+    <p>Her får du svar på ofte spurte spørsmål</p>
+    <div *ngIf="laster">Laster FAQs.....</div>
+    <div class="accordion" id="kategori">
+      <div  *ngFor="let kategori of alleFAQ">
+        <div id="headingOne"><!--class="card-header" --> 
+          <h2 class="mb-0">
+            <button mat-icon-button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#kategori-' + kategori.kategoriId" aria-expanded="true">
+              {{kategori.kategoriNavn}}
+            </button>
+          </h2>
         </div>
-      </div>
-    </div>
-  -->
 
-
-
-
-<div class="container" *ngIf="visFAQListe">
-  <div class="accordion" id="kategori">
-    <div class="card" *ngFor="let kategori of alleFAQ">
-      <div class="card-header" id="headingOne">
-        <h2 class="mb-0">
-          <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#kategori-' + kategori.kategoriId" aria-expanded="true" >
-            {{kategori.kategoriNavn}}
-          </button>
-        </h2>
-      </div>
-
-      <div id="kategori-{{kategori.kategoriId}}" class="collapse" data-parent="#kategori">
-        <div class="card-body" id="faq">
-                  <div class="card" *ngFor="let sporsmal of kategori.alleFAQList">
-                    <div class="card-header" id="headingOne">
-                      <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#sporsmal-' + sporsmal.id" aria-expanded="true">
-                          {{sporsmal.sporsmal}}
-                        </button>
-                      </h2>
-                    </div>
-
-                    <div id="sporsmal-{{sporsmal.id}}" class="collapse" data-parent="#faq">
-                      <div class="card-body">
-                        {{sporsmal.svar}}
-                      </div>
-                    </div>
-                  </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <h2>FAQ</h2>
-  <!-- Trestruktur -->
-  <div *ngIf="laster">Laster FAQs.....</div>
-
-
-  <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" data-target="#multiCollapseExample1" role="button" aria-expanded="false">Kategori</a>
-
-  <div class="collapse multi-collapse" id="multiCollapseExample1">
-    <div class="card card-body">
-      <a data-toggle="collapse" aria-expanded="false">
-        Spørsmål
-      </a>
-    </div>
-    <div class="card card-body">
-      Svar
-    </div>
-  </div>
-
-
-  <div *ngFor="let kategori of alleFAQ">
-    <button class="btn btn-primary" type="button" data-toggle="collapse" [attr.data-target]="'#innhold-' + kategori.kategoriId" aria-expanded="false" [attr.aria-controls]="'innhold-' + kategori.kategoriId">{{kategori.katergoriNavn}}</button>
-    <div *ngFor="let sporsmal of kategori.AlleFAQList">
-      <div class="collapse multi-collapse" id="innhold-{{kategori.kategoriId}}">
-        <div class="card card-body">
-          <a data-toggle="collapse" aria-expanded="false">
-            {{sporsmal.sporsmal}}
-          </a>
-        </div>
-        <div class="card card-body">
-          Svar
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-  <!--
-    <div *ngFor="let kategori of alleFAQ">
-      <a role="button" data-toggle="#innhold-{{kategori.kategoriId}}" href="#innhold-{{kategori.kategoriId}}">
-        {{kategori.kategoriNavn}}
-      </a>
-      <div id="innhold-{{kategori.kategoriId}}">
-        <div *ngFor="let sporsmal of kategori.AlleFAQList">
-          <a role="button" data-toggle="#svar-{{sporsmal.id}}" href="#svar-{{sporsmal.id}}">{{sporsmal.sporsmal}}</a>
-          <div id="svar-{{sporsmal.id}}">
-            {{sporsmal.svar}}
+        <div id="kategori-{{kategori.kategoriId}}" class="collapse" data-parent="#kategori">
+          <div class="card-body" id="faq">
+            <div class="card" *ngFor="let sporsmal of kategori.alleFAQList">
+              <div class="card-header" id="headingOne">
+                <h2 class="mb-0">
+                  <button class="btn btn-link" type="button" data-toggle="collapse" [attr.data-target]="'#sporsmal-' + sporsmal.id" aria-expanded="true">
+                    {{sporsmal.sporsmal}}
+                  </button>
+                </h2>
+              </div>
+              
+              <div id="sporsmal-{{sporsmal.id}}" class="collapse" data-parent="#faq">
+                <div class="card-body">
+                  {{sporsmal.svar}} <br /><br />
+                  <!--<a (click)="upvoteUpdate({{sporsmal.id}})">Upvote {{sporsmal.upvote}}</a>┆<a href="">Downvote {{sporsmal.downvote}}</a>-->
+                   <button (click)="upvoteUpdate(sporsmal.id)">{{sporsmal.id}}</button> {{sporsmal.upvote}} | {{sporsmal.downvote}}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>-->
 
 
+
+    <a class="btn btn-primary" data-toggle="collapse" href="#multiCollapseExample1" data-target="#multiCollapseExample1" role="button" aria-expanded="false">Kategori</a>
+
+    <div class="collapse multi-collapse" id="multiCollapseExample1">
+      <div class="card card-body">
+        <a data-toggle="collapse" aria-expanded="false">
+          Spørsmål
+        </a>
+      </div>
+      <div class="card card-body">
+        Svar
+      </div>
+    </div>
+  </div>
 </body>
 
 
