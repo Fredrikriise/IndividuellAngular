@@ -138,5 +138,25 @@ namespace IndividuellAngular
             }
             return true;
         }
+
+        public bool endreDownvote(int id)
+        {
+            FAQ funnetFAQ = _dbcontext.AlleFaq.First(k => k.id == id);
+            if (funnetFAQ == null)
+            {
+                return false;
+            }
+
+            funnetFAQ.downvote--;
+            try
+            {
+                _dbcontext.SaveChanges();
+            }
+            catch (Exception feil)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

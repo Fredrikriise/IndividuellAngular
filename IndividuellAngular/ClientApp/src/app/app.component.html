@@ -191,8 +191,10 @@
               <div id="sporsmal-{{sporsmal.id}}" class="collapse" data-parent="#faq">
                 <div class="card-body">
                   {{sporsmal.svar}} <br /><br />
-                  <!--<a (click)="upvoteUpdate({{sporsmal.id}})">Upvote {{sporsmal.upvote}}</a>┆<a href="">Downvote {{sporsmal.downvote}}</a>-->
-                   <button (click)="upvoteUpdate(sporsmal.id)">{{sporsmal.id}}</button> {{sporsmal.upvote}} | {{sporsmal.downvote}}
+                  <img src="https://cdn2.iconfinder.com/data/icons/drf/PNG/up_alt.png" (click)="upvoteUpdate(sporsmal.id)" />{{sporsmal.upvote}}
+               
+                  <button (click)="downvoteUpdate(sporsmal.id)">{{sporsmal.id}}</button> | {{sporsmal.downvote}}
+                  
                 </div>
               </div>
             </div>

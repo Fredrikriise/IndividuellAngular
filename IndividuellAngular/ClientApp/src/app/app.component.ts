@@ -226,9 +226,10 @@ export class AppComponent {
         
 
         for (let i = 0; i < this.alleFAQ.length; i++) {
-            for (let j = 0; j < this.alleFAQ[i].alleFAQList[].length)
-            if (id === this.alleFAQ[i].alleFAQList[0].id) {
-                oppdaterUpvote = this.alleFAQ[i].alleFAQList[];
+            for (let j = 0; j < this.alleFAQ[i].alleFAQList.length; j++) {
+                if (id === this.alleFAQ[i].alleFAQList[j].id) {
+                    oppdaterUpvote = this.alleFAQ[i].alleFAQList[j];
+                }
             }
         }
 
@@ -241,13 +242,25 @@ export class AppComponent {
         this._http.put("api/faq/" + id, body, { headers: headers }).subscribe();
     }
 
-    /*console.log(id);
-    console.log(this.alleFAQ[1].alleFAQList[0]);
-    console.log(this.alleFAQ[i].alleFAQList[0].id);
-    */
+    downvoteUpdate(id: Number) {
+        let oppdaterDownVote: FAQ;
 
-    downvote(downvote: number) {
 
+        for (let i = 0; i < this.alleFAQ.length; i++) {
+            for (let j = 0; j < this.alleFAQ[i].alleFAQList.length; j++) {
+                if (id === this.alleFAQ[i].alleFAQList[j].id) {
+                    oppdaterDownVote = this.alleFAQ[i].alleFAQList[j];
+                }
+            }
+        }
+
+        oppdaterDownVote.downvote--;
+
+
+        const body: string = JSON.stringify(oppdaterDownVote);
+        const headers = new HttpHeaders({ "Content-Type": "application/json" });
+
+        this._http.put("api/faq/" + id, body, { headers: headers }).subscribe();
     }
 
     //Metoder for navbar

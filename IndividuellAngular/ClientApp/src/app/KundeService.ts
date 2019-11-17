@@ -33,11 +33,11 @@ export interface IInnsporsmal {
 export class Kategori {
     kategoriId: number;
     kategoriNavn: string;
-    alleFAQList: FAQ;
+    alleFAQList: Array<FAQ>;
 }
 
 export interface IKategori {
     kategoriId: number;
     kategoriNavn: string;
-    alleFAQList: FAQ;
+    alleFAQList: Array<FAQ>;
 }
