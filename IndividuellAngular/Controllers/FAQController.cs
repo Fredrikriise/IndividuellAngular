@@ -25,21 +25,6 @@ namespace IndividuellAngular.Controllers
             return Json(alleFAQ);
         }
 
-        // POST api/faq - Oppretter ny faq
-        [HttpPost]
-        public JsonResult Post([FromBody]faq innFaq)
-        {
-            if (ModelState.IsValid)
-            {
-                var kundeserviceDb = new KundeServiceDB(_dbcontext);
-                bool OK = kundeserviceDb.largeEnFaq(innFaq);
-                if (OK)
-                {
-                    return Json("Opprettelse av ny FAQ var suksessfult!");
-                }
-            }
-            return Json("Opprettelse av ny FAQ feilet!");
-        }
 
         //Update api/faq/"id"
         [Route("[action]/{id}")]

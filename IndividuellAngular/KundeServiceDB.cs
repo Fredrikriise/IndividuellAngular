@@ -38,47 +38,6 @@ namespace IndividuellAngular
             return alleKategorierListe;
         }
 
-
-        public bool largeEnFaq(faq innFaq)
-        {
-            var nyFaq = new FAQ
-            {
-                sporsmal = innFaq.sporsmal,
-                svar = innFaq.svar,
-                upvote = innFaq.upvote,
-                downvote = innFaq.downvote
-            };
-
-            // Kategori nyKategori = _dbcontext.AlleKategorier.Where(kategori => kategori.kategoriNavn == innFaq.kategoriNavn).First();
-            Kategori funnetKategori = _dbcontext.AlleKategorier.Find(innFaq.kategoriNavn);
-            if (funnetKategori == null)
-            {
-                //Oppretter ny kategori
-                var nyKategori = new Kategori
-                {
-                    kategoriNavn = innFaq.kategoriNavn
-                };
-                nyFaq.kategoriNavn = nyKategori;
-                _dbcontext.AlleKategorier.Add(nyKategori);
-                _dbcontext.SaveChanges();
-            }
-            else
-            {
-                nyFaq.kategoriNavn = funnetKategori;
-            }
-
-            try
-            {
-                _dbcontext.AlleFaq.Add(nyFaq);
-                _dbcontext.SaveChanges();
-            }
-            catch (Exception error)
-            {
-                return false;
-            }
-            return true;
-        }
-
         //Metoder for innsporsmal
         public bool lagreEtSporsmal(innsporsmal innSporsmal)
         {

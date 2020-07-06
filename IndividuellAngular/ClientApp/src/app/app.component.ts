@@ -16,10 +16,8 @@ export class AppComponent {
     visInnsporsmalListe: boolean;
     alleInnsporsmal: Array<InnSporsmal>;
     InnsporsmalSkjema: FormGroup;
-
     laster: boolean;
     visHjem: boolean;
-
     FAQStatus: string;
     visFAQListe: boolean;
     alleFAQ: Array<Kategori>;
@@ -48,10 +46,18 @@ export class AppComponent {
             this.lagreInnsporsmal();
         }
         else {
-            alert("Feil ved registrering!");
+            alert("Feil ved registrering av nytt spørsmål!");
         } 
     }
 
+    tilbakeTilHjem() {
+        this.visInnsporsmalListe = false;
+        this.visInnsporsmal = false;
+        this.visHjem = true;
+        this.visFAQListe = false;
+    }
+
+    //Metoder for innspørsål
     hentAlleInnsporsmal() {
         this._http.get<IInnsporsmal[]>("api/innsporsmal/")
             .subscribe(
@@ -72,20 +78,11 @@ export class AppComponent {
         this.visFAQListe = false;
     }
 
-    tilbakeTilHjem() {
-        this.visInnsporsmalListe = false;
-        this.visInnsporsmal = false;
-        this.visHjem = true;
-        this.visFAQListe = false;
-    }
-
     lagreInnsporsmal() {
         var lagretInnsporsmal = new InnSporsmal();
-
         lagretInnsporsmal.navn = this.InnsporsmalSkjema.value.navn;
         lagretInnsporsmal.email = this.InnsporsmalSkjema.value.email;
         lagretInnsporsmal.sporsmal = this.InnsporsmalSkjema.value.sporsmal;
-
 
         const body: string = JSON.stringify(lagretInnsporsmal);
         const headers = new HttpHeaders({ "Content-Type": "application/json" });
@@ -99,7 +96,7 @@ export class AppComponent {
                     console.log("Ferdig med post-api/innsporsmal");
                 },
                 error => alert(error),
-        );
+            );
     };
 
     registrerInnsporsmal() {
@@ -155,7 +152,6 @@ export class AppComponent {
 
         oppdaterUpvote.upvote++;
 
-
         const body: string = JSON.stringify(oppdaterUpvote);
         const headers = new HttpHeaders({ "Content-Type": "application/json" });
 
@@ -179,8 +175,10 @@ export class AppComponent {
         const body: string = JSON.stringify(oppdaterDownVote);
         const headers = new HttpHeaders({ "Content-Type": "application/json" });
         this._http.put("api/faq/PutDown/" + id, body, { headers: headers }).subscribe();
+
     }
 
+   
 
     //Metoder for navbar
     isExpanded = false;
